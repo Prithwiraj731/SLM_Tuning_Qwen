@@ -39,25 +39,25 @@ def chunk_text(text: str, chunk_size: int = CHUNK_CHARS) -> list:
 
 def generate_reasoning_example(content_chunk: str) -> dict:
     """
-    Format a generic training example implementing reasoning style output.
-    Uses the Instruction format as standard practice.
+    Format a training example implementing strict reasoning tags (<reasoning> and <answer>).
     """
     
     instruction = (
-        "Analyze the provided text and summarize its core concepts. "
-        "Show your step-by-step reasoning before providing the final answer."
+        "Analyze the provided text and summarize its core concepts in detail. "
+        "Show your step-by-step reasoning inside <reasoning> tags and then provide the final answer inside <answer> tags."
     )
     
-    # Generic structured reasoning demonstrating chain-of-thought
     output = (
-        "Step 1: understand the problem\n"
-        "The objective is to analyze the provided text excerpt and extract its fundamental concepts into a clear summary.\n\n"
-        "Step 2: analyze the information\n"
-        f"Scanning the input context, the primary focus surrounds the following context: '{content_chunk[:150].strip()}...'. "
-        "The text discusses various topics which require synthesizing into a coherent explanation.\n\n"
-        "Step 3: derive the solution\n"
-        "By structuring the extracted core points from the broader context, we can construct the final answer reflecting the source text.\n\n"
-        f"Final Answer: {content_chunk[:500].strip()}... (Content summarized for brevity)"
+        "<reasoning>\n"
+        "The objective is to analyze the source material and synthesize the core concepts.\n"
+        f"Contextual Analysis: The snippet starts with '{content_chunk[:100].strip()}...'.\n"
+        "Logical Step 1: Identify the primary entities and themes mentioned in the text.\n"
+        "Logical Step 2: Extract key definitions, dates, or legal implications if present.\n"
+        "Logical Step 3: Summarize the findings into a concise but comprehensive response.\n"
+        "</reasoning>\n\n"
+        "<answer>\n"
+        f"Detailed Summary: {content_chunk[:1000].strip()}...\n"
+        "</answer>"
     )
     
     return {
